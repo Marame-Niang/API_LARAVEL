@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('clients', 'ClientAPIController');
 
-Route::resource('comptes', 'ComptesAPIController');
+Route::resource('comptes', 'CompteAPIController');
 
 Route::resource('type_comptes', 'TypeCompteAPIController');
 
