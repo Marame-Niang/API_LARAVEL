@@ -8,6 +8,7 @@ use App\Models\Compte;
 use App\Repositories\CompteRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\DB;
 use Response;
 
 /**
@@ -60,26 +61,28 @@ class CompteAPIController extends AppBaseController
         return $this->sendResponse($compte->toArray(), 'Compte saved successfully');
     }
 
-    /**
-     * Display the specified Compte.
-     * GET|HEAD /comptes/{id}
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\JsonResponse|Response
-     */
-    public function show($id)
-    {
-        /** @var Compte $compte */
-        $compte = $this->compteRepository->find($id);
+    // /**
+    //  * Display the specified Compte.
+    //  * GET|HEAD /comptes/{id}
+    //  *
+    //  * @param int $id
+    //  *
+    //  * @return \Illuminate\Http\JsonResponse|Response
+    //  */
+    
+    // public function show($id)
+    // {
+    //     /** @var Compte $compte */
+    //     $compte = $this->compteRepository->find($id);
 
-        if (empty($compte)) {
-            return $this->sendError('Compte not found');
-        }
+    //     if (empty($compte)) {
+    //         return $this->sendError('Compte not found');
+    //     }
 
-        return $this->sendResponse($compte->toArray(), 'Compte retrieved successfully');
-    }
+    //     return $this->sendResponse($compte->toArray(), 'Compte retrieved successfully');
+    // } 
 
+    
     /**
      * Update the specified Compte in storage.
      * PUT/PATCH /comptes/{id}
@@ -127,5 +130,25 @@ class CompteAPIController extends AppBaseController
         $compte->delete();
 
         return $this->sendSuccess('Compte deleted successfully');
+    }
+
+    /** 
+     * Display the specified Comptes.
+     * GET|HEAD /comptes/{numero}
+     *
+     * @param string $numero
+     *
+     * @return Response
+     */
+    public function show($numero)
+    {
+
+        $result = DB::table('comptes')->where('numero', $numero)->first();
+
+        if (empty($result)) {
+            return $this->sendError('Comptes not  found');
+        }
+
+        return $this->sendResponse($result, 'Compte retrieved successfully');
     }
 }
